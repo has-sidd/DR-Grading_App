@@ -100,69 +100,77 @@
           </p>
         </div>
         <form method="POST" onsubmit="return formValidate()" enctype="multipart/form-data" action="./assets_main/php/file-upload.php">
-          <div class="body" id="drop">
-            <div class="options row ">
 
-              <div class="col-sm-4">
-                <label class="heading">MR Number</label>
-                <div class="option-body">
-                  <input class="form-control form-control-sm mr-input" id="mrno" type="text" placeholder="MR07" aria-label=".form-control-sm example" name="mrno">
-                </div>
-                <div id='mrError' class='form-text invalid-feedback error'>cxvxvcasd
-                </div>
-              </div>
+          <div class="upload-section">
 
-              <div class="col-sm-4 ">
-                <label class="heading">Image Orientation</label>
-                <div class="option-body">
-                  <div class="form-check orientation-check">
-                    <input class="form-check-input orientation" type="radio" name="orientation" value="left" id="left">
-                    <label class="form-check-label" for="left">
-                      Left
-                    </label>
+            <div class="body" id="drop">
+  
+              <div class="options row ">
+  
+                <div class="col-sm-4">
+                  <label class="heading">MR Number</label>
+                  <div class="option-body">
+                    <input class="form-control form-control-sm mr-input" id="mrno" type="text" placeholder="MR07" aria-label=".form-control-sm example" name="mrno">
                   </div>
-                  <div class="form-check orientation-check">
-                    <input class="form-check-input orientation" type="radio" name="orientation" value="right" id="right">
-                    <label class="form-check-label" for="right">
-                      Right
-                    </label>
+                  <div id='mrError' class='form-text invalid-feedback error'>cxvxvcasd
                   </div>
-
                 </div>
-                <div id='orientationError' class='form-text invalid-feedback error'>cxvxvcasd
+  
+                <div class="col-sm-4 ">
+                  <label class="heading">Image Orientation</label>
+                  <div class="option-body">
+                    <div class="form-check orientation-check">
+                      <input class="form-check-input orientation" type="radio" name="orientation" value="left" id="left">
+                      <label class="form-check-label" for="left">
+                        Left
+                      </label>
+                    </div>
+                    <div class="form-check orientation-check">
+                      <input class="form-check-input orientation" type="radio" name="orientation" value="right" id="right">
+                      <label class="form-check-label" for="right">
+                        Right
+                      </label>
+                    </div>
+  
+                  </div>
+                  <div id='orientationError' class='form-text invalid-feedback error'>cxvxvcasd
+                  </div>
                 </div>
+  
+  
+                <div class="col-sm-4">
+                  <label class="heading">Device Type</label>
+                  <div class="option-body">
+                    <select name="device" id="device" class="form-select form-select-sm device-type" aria-label=".form-select-sm example">
+                      <option value="0" selected>Type</option>
+                      <option value="P">Portable</option>
+                      <option value="F">Fundus</option>
+                    </select>
+                  </div>
+                  <div id='deviceError' class='form-text invalid-feedback error'>cxvxvcasd
+                  </div>
+                </div>
+  
+                <div class="col-12">
+                  <div id='imgError' class='form-text invalid-feedback error'>cxvxvcasd
+                  </div>
+                </div>
+  
               </div>
-
-              
-
-
-              <div class="col-sm-4">
-                <label class="heading">Device Type</label>
-                <div class="option-body">
-                  <select name="device" id="device" class="form-select form-select-sm device-type" aria-label=".form-select-sm example">
-                    <option value="0" selected>Type</option>
-                    <option value="P">Portable</option>
-                    <option value="F">Fundus</option>
-                  </select>
-                </div>
-                <div id='deviceError' class='form-text invalid-feedback error'>cxvxvcasd
-                </div>
-              </div>
-
-              <div class="col-12">
-              <div id='imgError' class='form-text invalid-feedback error'>cxvxvcasd
-                </div>
-              </div>
-
             </div>
+  
             <div class="body-footer">
+              <div>
+  
+                <input class="img-input" type="file" name="images[]" multiple />
+              </div>
               <i class="fa fa-file-text-o pointer-none" aria-hidden="true"></i>
               <p class="pointer-none">
                 <b>Drag and drop</b> files here <br />
-                  or 
+                or
                 <a href="" id="triggerFile">browse</a> to begin the upload
               </p>
-              <input class="img-input" type="file" name="images[]" multiple />
+  
             </div>
           </div>
           <div class="second">
@@ -253,16 +261,16 @@
   <script src="assets_main/js/slick.js"></script>
   <script src="assets_main/js/isotope.js"></script>
 
-  
+
 
   <!-- Global Init -->
   <!-- <script src="assets_main/js/uploadValidation.js"></script> -->
   <!-- <script src="assets_main/js/custom.js"></script> -->
   <script src="assets_main/js/scriptUpload.js"></script>
   <script src="assets_main/js/imageValidation.js"></script>
-  
 
-  
+
+
 </body>
 
 </html>

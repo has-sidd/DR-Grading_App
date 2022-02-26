@@ -37,12 +37,10 @@
             $newname = $mrNo. "_" .$orientation. "_" .$device . "." .$ext;
 
             if(in_array($ext, $extension)){
-                if(!file_exists('../uploads/'.$newname))
-                {
-                    move_uploaded_file($filename_tmp, '../uploads/'.$newname);
-                    $finalimg=$newname;
-                    $img_dir='./assets_main/uploads/'.$newname;
-                }
+                move_uploaded_file($filename_tmp, '../uploads/'.$newname);
+                $finalimg=$newname;
+                $img_dir='./assets_main/uploads/'.$newname;
+                
             
                 //insert
                 $query = "INSERT INTO `uploads`(`image_name`, `mr_no`, `img_orientation`, `device_type`, `img_dir`, `image_create_time`) VALUES ('$finalimg', '$mrNo', '$orientation', '$device', '$img_dir', '$createTime')";
@@ -53,3 +51,4 @@
         };
         
     }
+?>

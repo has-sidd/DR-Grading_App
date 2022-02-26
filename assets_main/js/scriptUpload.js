@@ -26,7 +26,7 @@ App.init = (function () {
       .join("")}`;
 
     $(".btn-primary .badge").innerHTML = files.length;
-    $("#drop").classList.add("hidden");
+    // $("#drop").classList.add("hidden");
     $(".second").classList.add("hasFiles");
     $(".importar").classList.add("active");
     $(".submit").classList.add("active");
@@ -52,15 +52,15 @@ App.init = (function () {
   });
 
   // drop events
-  $("#drop").ondragleave = evt => {
-    $("#drop").classList.remove("active");
-    evt.preventDefault();
-  };
-  $("#drop").ondragover = $("#drop").ondragenter = evt => {
-    $("#drop").classList.add("active");
+  // $("#drop").ondragleave = evt => {
+  //   $("#drop").classList.remove("active");
+  //   evt.preventDefault();
+  // };
+  // $("#drop").ondragover = $("#drop").ondragenter = evt => {
+  //   $("#drop").classList.add("active");
 
-    evt.preventDefault();
-  };
+  //   evt.preventDefault();
+  // };
 
   //drop change
   $("#drop").ondrop = evt => {
@@ -85,7 +85,7 @@ App.init = (function () {
       .join("")}`;
 
     $(".btn-primary .badge").innerHTML = files.length;
-    $("#drop").classList.add("hidden");
+    // $("#drop").classList.add("hidden");
     $(".second").classList.add("hasFiles");
     $(".importar").classList.add("active");
     $(".submit").classList.add("active");
@@ -114,7 +114,7 @@ App.init = (function () {
     $(".second").classList.remove("hasFiles");
     $(".importar").classList.remove("active");
     setTimeout(() => {
-      $("#drop").classList.remove("hidden");
+      // $("#drop").classList.remove("hidden");
     }, 500);
   });
 
