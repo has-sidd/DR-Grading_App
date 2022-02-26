@@ -212,8 +212,6 @@ const formValidate = () => {
 
   if (flag == false){
     valid = false;
-  }else{
-    valid = true;
   }
 
   return valid;
