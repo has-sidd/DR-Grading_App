@@ -447,7 +447,7 @@ footer .right-text-content ul li a:hover {
   visibility: hidden;
   margin-left: calc(50% - 40px);
 }
-.upload .upload-files .second .importar.active {
+.upload .upload-files .second .active {
   transition: transform 0.5s 1.5s ease, opacity 0.5s 1.5s ease, background;
   transform: translateY(0);
   opacity: 1;

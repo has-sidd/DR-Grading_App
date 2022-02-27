@@ -109,10 +109,11 @@ App.init = (function () {
   };
 
   //upload more
-  $(".importar").addEventListener("click", () => {
+  $(".reset").addEventListener("click", () => {
     $(".list-files").innerHTML = "";
     $(".second").classList.remove("hasFiles");
-    $(".importar").classList.remove("active");
+    $(".reset").classList.remove("active");
+    $(".submit").classList.remove("active");
     setTimeout(() => {
       // $("#drop").classList.remove("hidden");
     }, 500);
@@ -185,7 +186,7 @@ const imgValidate = () => {
       device: device,
     },
     success: function (response) {
-    
+      
       if(response == 'Image already exists'){
         jQuery("#imgError").html(response);
         jQuery("#imgError").css("display", "block");

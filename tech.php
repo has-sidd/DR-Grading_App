@@ -184,7 +184,7 @@
             </div>
             <div class="row justify-content-center">
               <div class="col-md-2">
-                <button class="importar">RESET</button>
+                <button type="reset" class="importar reset">RESET</button>
               </div>
 
               <div class="col-md-2">

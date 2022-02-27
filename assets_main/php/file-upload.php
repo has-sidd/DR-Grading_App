@@ -11,8 +11,6 @@
         $query_check_run = mysqli_query($conn, $query_check);
         if(mysqli_num_rows($query_check_run) > 0){
             echo "Image already exists";
-        }else{
-            echo "No image exists";
         }
     }
 
@@ -47,7 +45,10 @@
                 mysqli_query($conn, $query);
 
                 header('location: ../../tech.php');
-            };
+            }
+            else{
+                echo "Extension not supported";
+            }
         };
         
     }
