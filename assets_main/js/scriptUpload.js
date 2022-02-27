@@ -7,7 +7,7 @@ App.init = (function () {
   //Init
   function handleFileSelect(evt) {
     const files = evt.target.files; // FileList object
-    
+
     //files template
     let template = `${Object.keys(files)
       .map(
@@ -169,14 +169,38 @@ const deviceValidate = () => {
   }
 };
 
-var flag;
+var flag2;
+
+jQuery(".img-input").on("change", function (e) {
+  let validExt = ["image/jpeg", "image/jpg", "image/png", "image/tiff"];
+  files = e.target.files;
+
+  for (var i = 0; i < files.length; i++) {
+    var ext = files[i].type;
+
+    if (!validExt.includes(ext)) {
+      jQuery("#extError").html(
+        "Invalid file extension. Only jpeg, jpg, png and tiff extension allowed"
+      );
+      jQuery("#extError").css("display", "block");
+      flag2 = false;
+      return false;
+    } else {
+      jQuery("#extError").css("display", "none");
+      flag2 = true;
+      return true;
+    }
+  }
+});
+
+var flag1;
 
 const imgValidate = () => {
   var mrno = jQuery("#mrno").val();
   var orientation = jQuery(".orientation:checked").val();
 
   var device = jQuery("select[name=device]").val();
-  
+
   jQuery.ajax({
     type: "POST",
     url: "./assets_main/php/file-upload.php",
@@ -186,35 +210,35 @@ const imgValidate = () => {
       device: device,
     },
     success: function (response) {
-      
-      if(response == 'Image already exists'){
+      if (response == "Image already exists") {
         jQuery("#imgError").html(response);
         jQuery("#imgError").css("display", "block");
-        flag = false;
+        flag1 = false;
         return false;
-      }else{
+      } else {
         jQuery("#imgError").css("display", "none");
-        flag = true;
+        flag1 = true;
         return true;
-      };
-      
+      }
     },
   });
 };
 
 const formValidate = () => {
   let valid = true;
-  
+
   if (!mrValidate()) valid = false;
 
   if (!orientationValidate()) valid = false;
 
   if (!deviceValidate()) valid = false;
 
-  if (flag == false){
+  if (flag1 == false) {
     valid = false;
   }
-
+  if (flag2 == false) {
+    valid = false;
+  }
   return valid;
 };
 

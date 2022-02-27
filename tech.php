@@ -104,9 +104,9 @@
           <div class="upload-section">
 
             <div class="body" id="drop">
-  
+
               <div class="options row ">
-  
+
                 <div class="col-sm-4">
                   <label class="heading">MR Number</label>
                   <div class="option-body">
@@ -115,7 +115,7 @@
                   <div id='mrError' class='form-text invalid-feedback error'>cxvxvcasd
                   </div>
                 </div>
-  
+
                 <div class="col-sm-4 ">
                   <label class="heading">Image Orientation</label>
                   <div class="option-body">
@@ -131,13 +131,13 @@
                         Right
                       </label>
                     </div>
-  
+
                   </div>
                   <div id='orientationError' class='form-text invalid-feedback error'>cxvxvcasd
                   </div>
                 </div>
-  
-  
+
+
                 <div class="col-sm-4">
                   <label class="heading">Device Type</label>
                   <div class="option-body">
@@ -150,18 +150,20 @@
                   <div id='deviceError' class='form-text invalid-feedback error'>cxvxvcasd
                   </div>
                 </div>
-  
+
                 <div class="col-12">
                   <div id='imgError' class='form-text invalid-feedback error'>cxvxvcasd
                   </div>
+                  <div id='extError' class='form-text invalid-feedback error'>cxvxvcasd
+                  </div>
                 </div>
-  
+
               </div>
             </div>
-  
+
             <div class="body-footer">
               <div>
-  
+
                 <input class="img-input" type="file" name="images[]" multiple />
               </div>
               <i class="fa fa-file-text-o pointer-none" aria-hidden="true"></i>
@@ -170,7 +172,7 @@
                 or
                 <a href="" id="triggerFile">browse</a> to begin the upload
               </p>
-  
+
             </div>
           </div>
           <div class="second">
