@@ -51,17 +51,6 @@ App.init = (function () {
     $("input[type=file]").click();
   });
 
-  // drop events
-  // $("#drop").ondragleave = evt => {
-  //   $("#drop").classList.remove("active");
-  //   evt.preventDefault();
-  // };
-  // $("#drop").ondragover = $("#drop").ondragenter = evt => {
-  //   $("#drop").classList.add("active");
-
-  //   evt.preventDefault();
-  // };
-
   //drop change
   $("#drop").ondrop = evt => {
     evt.preventDefault();
@@ -85,7 +74,6 @@ App.init = (function () {
       .join("")}`;
 
     $(".btn-primary .badge").innerHTML = files.length;
-    // $("#drop").classList.add("hidden");
     $(".second").classList.add("hasFiles");
     $(".importar").classList.add("active");
     $(".submit").classList.add("active");
@@ -103,9 +91,8 @@ App.init = (function () {
       }, load);
     });
 
-    // $(".second").classList.add("hasFiles");
+    $(".second").classList.add("hasFiles");
     $("#drop").classList.remove("active");
-    // $("#drop").classList.add("hidden");
   };
 
   //upload more
@@ -114,9 +101,6 @@ App.init = (function () {
     $(".second").classList.remove("hasFiles");
     $(".reset").classList.remove("active");
     $(".submit").classList.remove("active");
-    setTimeout(() => {
-      // $("#drop").classList.remove("hidden");
-    }, 500);
   });
 
   // input change
@@ -173,23 +157,24 @@ var flag2;
 
 jQuery(".img-input").on("change", function (e) {
   let validExt = ["image/jpeg", "image/jpg", "image/png", "image/tiff"];
+  var ext = [];
   files = e.target.files;
 
   for (var i = 0; i < files.length; i++) {
-    var ext = files[i].type;
+    ext.push(files[i].type);
+  }
 
-    if (!validExt.includes(ext)) {
-      jQuery("#extError").html(
-        "Invalid file extension. Only jpeg, jpg, png and tiff extension allowed"
-      );
-      jQuery("#extError").css("display", "block");
-      flag2 = false;
-      return false;
-    } else {
-      jQuery("#extError").css("display", "none");
-      flag2 = true;
-      return true;
-    }
+  if (!ext.every(item => validExt.includes(item))) {
+    jQuery("#extError").html(
+      "Invalid file extension. Only jpeg, jpg, png and tiff extension allowed"
+    );
+    jQuery("#extError").css("display", "block");
+    flag2 = false;
+    return false;
+  } else {
+    jQuery("#extError").css("display", "none");
+    flag2 = true;
+    return true;
   }
 });
 
