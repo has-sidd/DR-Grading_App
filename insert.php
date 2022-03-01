@@ -8,7 +8,7 @@
 <body>
     <center>
         <?php
-		require 'con.php';
+		require 'connection.php';
 		require 'sendemail.php';
 		require 'vendor/autoload.php';
 		// servername => localhost

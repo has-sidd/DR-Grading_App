@@ -194,6 +194,7 @@ const imgValidate = () => {
       orientation: orientation,
       device: device,
     },
+    dataType: 'text',
     success: function (response) {
       if (response == "Image already exists") {
         jQuery("#imgError").html(response);

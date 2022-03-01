@@ -36,8 +36,8 @@
           <nav class="main-nav">
             <!-- ***** Logo Start ***** -->
             <a href="index.html" class="logo row">
-              <img src="assets/images/ncl-logo.png" />
-              <img src="assets/images/logo-new.jpeg" />
+              <img src="assets_main/images/ncl-logo.png" />
+              <img src="assets_main/images/logo-new.jpeg" />
               <!-- <h4 class="main-logohead"><b>A-Eye Diagnostics</b></h3> -->
             </a>
             <!-- ***** Logo End ***** -->
@@ -164,7 +164,7 @@
             <div class="body-footer">
               <div>
 
-                <input class="img-input" type="file" name="images[]" multiple />
+                <input class="img-input" type="file" name="images[]"  multiple="multiple" />
               </div>
               <i class="fa fa-file-text-o pointer-none" aria-hidden="true"></i>
               <p class="pointer-none">
@@ -227,8 +227,8 @@
         <div class="col-lg-4">
           <div class="logo row">
             <a href="index.html"><img class="resize" alt="" />
-              <img src="assets/images/ncl-logo.png" />
-              <img src="assets/images/logo-new.jpeg" /></a>
+              <img src="assets_main/images/ncl-logo.png" />
+              <img src="assets_main/images/logo-new.jpeg" /></a>
           </div>
         </div>
         <div class="col-lg-4 col-xs-12">

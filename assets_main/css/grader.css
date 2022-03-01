@@ -1,6 +1,6 @@
 .grader{
     background-image: url("../images/top-left-bg.jpg");
-    height: 100vh;
+    height: 100%;
     padding: 120px 0;
 }
 .error{
@@ -24,11 +24,19 @@
 }
 .wrapper{
     background-color: #fff;
-    width: 75%;
+    width: 100%;
     margin: 0 auto;
     border-radius: 5px;
     padding: 20px;
-    height: 70vh;
+    height: 100%;
+}
+.section-wrap {
+  background: #c8e4eb;
+  padding: 100px;
+  overflow: hidden;
+  text-align:center;
+  font-weight: bold;
+  
 }
 .grader .select{
     margin: auto 0;
@@ -166,3 +174,64 @@ footer {
     background-color: #fff;
   }
   /* Footer end  */
+
+  @import url(https://fonts.googleapis.com/css?family=Oswald:400);
+
+.mq-here {
+  width: 100%;
+  background-color: black;
+}
+  .img_logout {
+    width: 100%;
+    height: auto;
+    border-radius: 50px;
+    float: left;
+  }
+  
+  .logout_button {
+    text-decoration: none;
+    position: absolute; 
+    top: 0px; right: 0px;
+    float:right;
+    padding: 10px;
+    margin: 15px;
+    color: #1d6924;
+    width: 100px;
+    
+    background-color: white;
+    transition: width .35s;
+    -webkit-transition: width .35s;
+    overflow: hidden
+  }
+  .logoutmq {
+    
+    position: absolute;
+    right: 10px;
+    bottom: -11px;
+    margin: 5px;
+    overflow: hidden;
+    letter-spacing: 3px;
+    font-size: inherit;
+    font-weight: bold;
+    font-style: italic;
+    transition: opacity .45s;
+    -webkit-transition: opacity .35s;
+    
+  }  
+  a.img_logout:hover {
+    width: 100px;
+  }
+  
+  a.img_logout:hover.logoutmq{
+    opacity: .9;
+  }
+  
+  a.img_logout{
+    text-decoration: none;
+  }
+  .section-ungrade{
+    background: #f1f8e9;
+    padding: 0px;
+    overflow: hidden;
+    text-align:center;
+  }

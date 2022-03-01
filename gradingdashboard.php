@@ -43,7 +43,7 @@
             </a>
             <!-- ***** Logo End ***** -->
             <!-- ***** Menu Start ***** -->
-            
+
             <!-- ***** Menu End ***** -->
           </nav>
         </div>
@@ -58,111 +58,109 @@
       <div class="row wrapper justify-content-around">
         <div class="col-lg-8 p-0">
           <h2 class="heading text-center m-auto">Grader</h1>
-          <form method="POST" >
+            <form method="POST">
         </div>
         <div class="mq-here">
-  <h1 style = 'color:white; text-align: center' ><?php 
-  session_start();
-  include 'con.php';
-   $login_email = $_SESSION["email"]; 
-   $username= "SELECT * FROM signIn WHERE email = '$login_email'";
-  $myuser= mysqli_query($conn,$username);
-  $rowuser = mysqli_fetch_array($myuser);
-  $user_Name  = $rowuser['name'];
+          <h1 style='color:white; text-align: center'><?php
+                                                      session_start();
+                                                      include 'connection.php';
+                                                      $login_email = $_SESSION["email"];
+                                                      $username = "SELECT * FROM signIn WHERE email = '$login_email'";
+                                                      $myuser = mysqli_query($conn, $username);
+                                                      $rowuser = mysqli_fetch_array($myuser);
+                                                      $user_Name  = $rowuser['name'];
 
-  echo $user_Name;?></h1>
-	<a class="logout_button" href="thanks_grading.html"  id='logout' type='submit' name='logout'  required='required'><?php 
-  if(isset($_POST['logout'])){
-    session_destroy();
-  }
-  ?>
-  	<img class="img_logout" src="assets_main/images/capture.PNG">
-    
-  
-  <div class="logoutmq">LOGOUT</div>
+                                                      echo $user_Name; ?></h1>
+          <a class="logout_button" href="thanks_grading.html" id='logout' type='submit' name='logout' required='required'><?php
+                                                                                                                          if (isset($_POST['logout'])) {
+                                                                                                                            session_destroy();
+                                                                                                                          }
+                                                                                                                          ?>
+            <img class="img_logout" src="assets_main/images/capture.PNG">
 
-	</a>
-  
-</div>
-            <?php 
-            include 'con.php';
 
-         
-            
-            
-            If (isset($_POST['submit'])) {
-              //session_start();
-              $grade_mq_dr= $_REQUEST['grade'];
-              $grade_mq_mo = $_REQUEST['mgrade'];
-              $type= $_SESSION["device_type"];
-              $grader_userid = $_SESSION["u_id"];
-              $prev_id=$_REQUEST["image_previous"];
-              $image_name_current =$_REQUEST['image_name'];
+            <div class="logoutmq">LOGOUT</div>
 
-              $insert_grade= "INSERT INTO grading (`grader_id`, `image_name`, `mo`, `dr`,`device_type`,`original_image_id`) VALUES (
-                '$grader_userid','$image_name_current','$grade_mq_mo','$grade_mq_dr','$type','$prev_id');";
-                  $res=mysqli_query($conn,$insert_grade);
+          </a>
 
-              //echo $_SESSION["email"];
-             // echo $_SESSION["u_id"];
-           //  echo $_SESSION["device_type"];
-             
-            
-             $first_image = $_REQUEST["image_first"];
-             $first_count = $_REQUEST["counter"];
-             $first_count++;
-                $mysqli = new mysqli('localhost', 'root', '', 'signIn'); 
-            // mysqli query where the selected value is $_POST['owner']
-            $sqlcount = "SELECT COUNT(*) FROM uploads WHERE device_type = '$type' and (`image_id`%2) =0";
-            $count = mysqli_query($conn,$sqlcount);
-            $row = mysqli_fetch_array($count);
-           
+        </div>
+        <?php
+        include 'connection.php';
+       
+
+        if (isset($_POST['submit'])) {
+          //session_start();
           
+            $grade_mq_dr = $_REQUEST['grade'];
+            $grade_mq_mo = $_REQUEST['mgrade'];
+            $grade_others = $_REQUEST['others'];
+            $type = $_SESSION["device_type"];
+            $grader_userid = $_SESSION["u_id"];
+            $prev_id = $_REQUEST["image_previous"];
+            $image_name_current = $_REQUEST['image_name'];
 
-            $total = $row[0];
-            //echo $total;
-           // echo $first_count;
-            if($first_count==$total+1 || ($prev_id%2==1)){
-                   
-             //$first_image_odd = $_REQUEST["image_first_odd"];
-             if(!isset($_REQUEST["image_first_odd"])){
+            $insert_grade = "INSERT INTO grading (`grader_id`, `image_name`, `mo`, `dr`,`device_type`,`original_image_id`,`others`) VALUES (
+                '$grader_userid','$image_name_current','$grade_mq_mo','$grade_mq_dr','$type','$prev_id','$grade_others');";
+            $res = mysqli_query($conn, $insert_grade);
+          
+          //echo $_SESSION["email"];
+          // echo $_SESSION["u_id"];
+          //  echo $_SESSION["device_type"];
+
+
+          $first_image = $_REQUEST["image_first"];
+          $first_count = $_REQUEST["counter"];
+          $first_count++;
+          $mysqli = new mysqli('localhost', 'root', '', 'signIn');
+          // mysqli query where the selected value is $_POST['owner']
+          $sqlcount = "SELECT COUNT(*) FROM uploads WHERE device_type = '$type' and (`image_id`%2) =0";
+          $count = mysqli_query($conn, $sqlcount);
+          $row = mysqli_fetch_array($count);
+
+
+
+          $total = $row[0];
+          echo $total;
+          echo $first_count;
+          if ($first_count == $total + 1 || ($prev_id % 2 == 1)) {
+
+            //$first_image_odd = $_REQUEST["image_first_odd"];
+            if (!isset($_REQUEST["image_first_odd"])) {
               $sql_odd = "SELECT * FROM `uploads` WHERE device_type='$type' AND  (`image_id`%2) =1 limit 1";
-              $mq_odd = mysqli_query($conn,$sql_odd);
+              $mq_odd = mysqli_query($conn, $sql_odd);
               $row_odd = mysqli_fetch_array($mq_odd);
-              $id_odd=$row_odd['image_id'];
-              $first_image= $id_odd;
-              
-             }else{
-               $first_image =$_REQUEST["image_first_odd"]+2;
-             }
-             //echo 'fist image odd ='. $first_image;
-                    $sql56 = "SELECT * FROM `uploads` WHERE device_type='$type' AND  (`image_id`%2) =1 AND image_id=$first_image limit 1";
-                  
-                    $mq56 = mysqli_query($conn,$sql56);
-                    $row56 = mysqli_fetch_array($mq56);
-                    $DR_grade = $_REQUEST['grade'];
-                    $MO_grade = $_REQUEST['mgrade'];
-                    $image_name_current=$row56['image_name'];
-                    $image_id_current=$row56['image_id'];
-                    // echo 'starting oddy di';
-                    // echo $prev_id;
-                    // echo $first_image;
+              $id_odd = $row_odd['image_id'];
+              $first_image = $id_odd;
+            } else {
+              $first_image = $_REQUEST["image_first_odd"] + 2;
+            }
+            //echo 'fist image odd ='. $first_image;
+            $sql56 = "SELECT * FROM `uploads` WHERE device_type='$type' AND  (`image_id`%2) =1 AND image_id=$first_image limit 1";
 
-                    // $insert_grade_odd = "INSERT INTO grading (`grader_id`, `image_name`, `mo`, `dr`,`device_type`,`original_image_id`) VALUES (
-                    //   '$grader_userid','$image_name_current','$MO_grade','$DR_grade','$type','$image_id_current');";
-                    //     $res=mysqli_query($conn,$insert_grade_odd);
-                   
-                    if(!isset($row56['image_name'])){
-                      echo "<script>
+            $mq56 = mysqli_query($conn, $sql56);
+            $row56 = mysqli_fetch_array($mq56);
+            $DR_grade = $_REQUEST['grade'];
+            $MO_grade = $_REQUEST['mgrade'];
+            $image_name_current = $row56['image_name'];
+            $image_id_current = $row56['image_id'];
+            // echo 'starting oddy di';
+            // echo $prev_id;
+            // echo $first_image;
+
+            // $insert_grade_odd = "INSERT INTO grading (`grader_id`, `image_name`, `mo`, `dr`,`device_type`,`original_image_id`) VALUES (
+            //   '$grader_userid','$image_name_current','$MO_grade','$DR_grade','$type','$image_id_current');";
+            //     $res=mysqli_query($conn,$insert_grade_odd);
+
+            if (!isset($row56['image_name'])) {
+              echo "<script>
             alert('complete');
             window.location.href = 'thanks-3.html';
             </script>";
-           
-                    }
-                    
-            
-                  
-                    echo "
+            }
+
+
+
+            echo "
                   
                          <div class='col-md-5 image text-center'>
                   
@@ -201,6 +199,10 @@
                         <input class='form-check-input grade' type='radio' style='position: inherit;' name='grade'  id='grade5' value='S4' />
                         <label class='form-check-label' for='grade5'>S4</label>
                       </div> 
+                      <div class='form-group'>
+                        <input class='form-check-input grade' type='hidden' style='position: inherit;' name='grade'  id='grade5' value='null' />
+                        
+                      </div> 
                       </fieldset>
         
                       <h5 class= 'form-title'>Maculopathy grades</h5>
@@ -214,19 +216,22 @@
                         <input class='form-check-input grade' type='radio' style='position: inherit;' name='mgrade' id='M1' value='M1' />
                         <label class='form-check-label' for='grade5'>M1</label>
                       </div> 
+                      <div class='form-group'>
+                        <input class='form-check-input grade' type='hidden' style='position: inherit;' name='mgrade'  id='grade5' value='null' />
+                       
+                      </div> 
                       </fieldset>
                       <div id='gradeError' class='form-text invalid-feedback error'>cxvxvcasd
                       </div>
-                      <button id='submit' type='submit' name='submit'  required='required' class='btn btn-primary'>Next Image</button>
                       <h5>Others</h5>
                       <div class='section-ungrade section-flavors'>
-                      <input id='r11' name='others' type='radio' value='radio_btn' onclick='clickHandler(this);' class='flavors-radio'> 
+                      <input id='r11' name='others' type='radio' value='U1' onclick='clickHandler(this);' class='flavors-radio'> 
                  <label for='r11'><span>  </span>Ungradable</label>
-                      <input id='r12' name='others' type='radio' value='radio_btn' onclick='clickHandler(this);'class='flavors-radio'>
+                      <inputs id='r12' name='others' type='radio' value='D1' onclick='clickHandler(this);'class='flavors-radio'>
                  <label for='r12'><span></span>Other Disease</label>
-                 <button id='btnRate' type='submit' name='submit_1' required='required' class='btn btn-primary'>Next Image</button>
-                 <script>
-                let btn = document.getElementById('btnRate');
+                      <button id='submit' type='submit' name='submit'  required='required' class='btn btn-primary'>Next Image</button>
+                      <script>
+                let btn = document.getElementById('submit');
                
         
                 btn.addEventListener('click', () => {
@@ -235,32 +240,40 @@
                         if (others.checked) {
                           $('#grade1').removeAttr('required');
                           $('#M0').removeAttr('required');
+                          header('Location:admin/index.html');
                         }
                     });
         
                 });
             </script>
+        
+                 
                       </div>";
-                    }
-                else{
+          } 
+          else {
 
-              $sql12 = "SELECT * FROM `uploads` WHERE device_type='$type' AND  (`image_id`%2) =0 AND image_id>$prev_id limit 1";
-              $mq12 = mysqli_query($conn,$sql12);
-              $rowmq = mysqli_fetch_array($mq12);
-             
-              
-           //   echo $first_image;
+            echo 'previou s id'.$prev_id;
+            
+            $sql12 = "SELECT * FROM `uploads` WHERE device_type='$type' AND  (`image_id`%2) =0 AND image_id>=$prev_id limit 1";
+            $mq12 = mysqli_query($conn, $sql12);
+            $rowmq = mysqli_fetch_array($mq12);
+
+
+
+            //   echo $first_image;
+
+            $image_name_current = $rowmq['image_name'];
+            $image_id_current = $rowmq['image_id'];
           
-              $image_name_current=$rowmq['image_name'];
-              $image_id_current=$rowmq['image_id'];
               $DR_grade = $_REQUEST['grade'];
               $MO_grade = $_REQUEST['mgrade'];
-              //echo $DR_grade.$MO_grade.$image_name_current.$type.$grader_userid;
+            
+            //echo $DR_grade.$MO_grade.$image_name_current.$type.$grader_userid;
 
-              // $insert_grade_even = "INSERT INTO grading (`grader_id`, `image_name`, `mo`, `dr`,`device_type`,`original_image_id`) VALUES (
-              //       '$grader_userid','$image_name_current','$MO_grade','$DR_grade','$type','$image_id_current');";
-              //         $res=mysqli_query($conn,$insert_grade_even);
-              echo "
+            // $insert_grade_even = "INSERT INTO grading (`grader_id`, `image_name`, `mo`, `dr`,`device_type`,`original_image_id`) VALUES (
+            //       '$grader_userid','$image_name_current','$MO_grade','$DR_grade','$type','$image_id_current');";
+            //         $res=mysqli_query($conn,$insert_grade_even);
+            echo "
             
               <div class='col-md-5 image text-center'>
             
@@ -297,7 +310,11 @@
                 <div class='form-group'>
                   <input class='form-check-input grade' type='radio' style='position: inherit;' name='grade' id='grade5' value='S4' />
                   <label class='form-check-label' for='grade5'>S4</label>
-                </div> 
+                </div>
+                <div class='form-group'>
+                        <input class='form-check-input grade' type='hidden' style='position: inherit;' name='grade'  id='grade5' value='null' />
+                        
+                      </div>  
                 </fieldset>
   
                 <h5 class= 'form-title'>Maculopathy grades</h5>
@@ -311,272 +328,107 @@
                   <input class='form-check-input grade' type='radio' style='position: inherit;' name='mgrade' id='M1' value='M1' />
                   <label class='form-check-label' for='grade5'>M1</label>
                 </div> 
+                <div class='form-group'>
+                        <input class='form-check-input grade' type='hidden' style='position: inherit;' name='mgrade'  id='grade5' value='null' />
+                        
+                      </div> 
                 </fieldset>
                 <div id='gradeError' class='form-text invalid-feedback error'>cxvxvcasd
                 </div>
-                <button id='submit' type='submit' name='submit'  required='required' class='btn btn-primary'>Next Image</button>
-
                 <h5>Others</h5>
-                <div class='section-ungrade section-flavors'>
-                <input id='r11' name='others' type='radio' value='radio_btn' onclick='clickHandler(this);' class='flavors-radio'> 
-           <label for='r11'><span>  </span>Ungradable</label>
-                <input id='r12' name='others' type='radio' value='radio_btn' onclick='clickHandler(this);'class='flavors-radio'>
-           <label for='r12'><span></span>Other Disease</label>
-           <button id='btnRate' type='submit' name='submit_1' required='required' class='btn btn-primary'>Next Image</button>
-           <script>
-          let btn = document.getElementById('btnRate');
-         
-  
-          btn.addEventListener('click', () => {
-              let others = document.getElementsByName('others');
-              others.forEach((others) => {
-                  if (others.checked) {
-                    $('#grade1').removeAttr('required');
-                    $('#M0').removeAttr('required');
-                  }
-              });
-  
-          });
-      </script>
-                </div>";}
-              }
-              
-              
-              else{
-                $counter = 1;
-                $grader_login_id = $_SESSION['u_id'];
-
-                $loginsql= "SELECT graded_img FROM grading WHERE EXISTS (SELECT grader_id FROM grading WHERE grader_id = $grader_login_id) limit 1 "; 
-                $login_check = mysqli_query($conn,$loginsql);
-
-                if (mysqli_num_rows($login_check)>0){
-                  
-                 // echo 'user exist';
-                  $latest_img = "SELECT * FROM grading WHERE grader_id= $grader_login_id ORDER BY graded_img DESC limit 1";
-                  $latest = mysqli_query($conn,$latest_img);
-                  $fetch = mysqli_fetch_array($latest);
-                  $final_latest = $fetch['original_image_id'];
-                  
-                  
-                  if (($final_latest%2)==0){
-                  $type = $_REQUEST['device_type'];
-                  $_SESSION["device_type"] = $type;
-                  //echo $type;
-                 // $mysqli = new mysqli('localhost', 'root', '', 'signIn');  
-                 $image_type = $fetch['device_type'];
-                 if ($image_type=='F'){
-                  $final_latesti = $final_latest+2;
-                  $sql27 = "SELECT * FROM uploads WHERE device_type= '$type' AND image_id= $final_latesti limit 1 ";     
-                  $mq27 = mysqli_query($conn,$sql27);
-                  $row = mysqli_fetch_array($mq27);
-                  
-      
-                  $image_name_current_1st=$row['image_name'];
-                  $image_id_current_1st=$row['image_id'];
-                  echo "
-            
-                  <div class='col-md-5 image text-center'>
-                
-                    <img src='{$row['img_dir']}' ;class='card-img-top' alt='...' />
-                    <div class='col-12'>
-                      <span class='filename'>{$row['image_id']}</span>
-                    </div>
-                    <input type='hidden' name='image_previous' value='{$row['image_id']}'/>
-                    <input type='hidden' name='image_first' value='{$row['image_id']}'/>
-                    <input type='hidden' name='counter' value='{$counter}'/>
-                    <input type='hidden' name='image_name' value='{$row['image_name']}'/>
-                  </div>
-                  <div class='col-md-1 select text-center'>
-                  <h5 class= 'form-title'>DR grades</h5>
-                    <div class='form-group' >
-                  
-                      <input class='form-check-input grade' type='radio' required='required' name='grade' id='grade1' value='S0' style='position: inherit;'/>
-                      <label class='form-check-label' for='grade1'>S0</label>
-                    </div>
-                    
-                    <fieldset id='group1'>
-                    <div class='form-group'>
-                      <input class='form-check-input grade' type='radio'style='position: inherit;'name='grade' id='grade2' value='S1' />
-                      <label class='form-check-label' for='grade2'>S1</label>
-                    </div>
-                    <div class='form-group'>
-                      <input class='form-check-input grade' type='radio' style='position: inherit;'name='grade' id='grade3' value='S2' />
-                      <label class='form-check-label' for='grade3'>S2</label>
-                    </div>
-                    <div class='form-group'>
-                      <input class='form-check-input grade' type='radio' style='position: inherit;' name='grade' id='grade4' value='S3' />
-                      <label class='form-check-label' for='grade4'>S3</label>
-                    </div>
-                    <div class='form-group'>
-                      <input class='form-check-input grade' type='radio' style='position: inherit;' name='grade' id='grade5' value='S4' />
-                      <label class='form-check-label' for='grade5'>S4</label>
-                    </div> 
-                    </fieldset>
-                    <h5 class= 'form-title'>Maculopathy grades</h5>
-                     
-                    <fieldset id='group2'>
-                    <div class='form-check form-check-inline'>
-                      <input class='form-check-input grade' type='radio' style='position:  inherit;' required='required'name='mgrade' id='M0' value='M0' />
-                      <label class='form-check-label'  for='grade5'>M0</label>
-                    </div> 
-                    <div class='form-check form-check-inline'>
-                      <input class='form-check-input grade' type='radio' style='position: inherit;' name='mgrade' id='M1' value='M1' />
-                      <label class='form-check-label' for='grade5'>M1</label>
-                    </div> 
-                    </fieldset>
-                    
-                    <div id='gradeError' class='form-text invalid-feedback error'>cxvxvcasd
-                    </div>
-                    <button id='submit' type='submit' name='submit' required='required' class='btn btn-primary'>Next Image</button>
-
-                    <h5>Others</h5>
-                    <div class='section-ungrade section-flavors'>
-                    <input id='r11' name='others' type='radio' value='radio_btn' onclick='clickHandler(this);' class='flavors-radio'> 
-               <label for='r11'><span>  </span>Ungradable</label>
-                    <input id='r12' name='others' type='radio' value='radio_btn' onclick='clickHandler(this);'class='flavors-radio'>
-               <label for='r12'><span></span>Other Disease</label>
-               <button id='btnRate' type='submit' name='submit_1' required='required' class='btn btn-primary'>Next Image</button>
-               <script>
-              let btn = document.getElementById('btnRate');
-             
-      
-              btn.addEventListener('click', () => {
-                  let others = document.getElementsByName('others');
-                  others.forEach((others) => {
-                      if (others.checked) {
-                        $('#grade1').removeAttr('required');
-                        $('#M0').removeAttr('required');
-                      }
-                  });
-      
-              });
-          </script>
-                </div>";
-                 }else{
-                  $final_latesti = $final_latest+2;
-                  $sql27 = "SELECT * FROM uploads WHERE device_type= '$type' AND image_id= $final_latesti limit 1 ";     
-                  $mq27 = mysqli_query($conn,$sql27);
-                  $row = mysqli_fetch_array($mq27);
-                  
-      
-                  $image_name_current_1st=$row['image_name'];
-                  $image_id_current_1st=$row['image_id'];
-                  echo "
-            
-                  <div class='col-md-5 image text-center'>
-                
-                    <img src='{$row['img_dir']}' ;class='card-img-top' alt='...' />
-                    <div class='col-12'>
-                      <span class='filename'>{$row['image_id']}</span>
-                    </div>
-                    <input type='hidden' name='image_previous' value='{$row['image_id']}'/>
-                    <input type='hidden' name='image_first' value='{$row['image_id']}'/>
-                    <input type='hidden' name='counter' value='{$counter}'/>
-                    <input type='hidden' name='image_name' value='{$row['image_name']}'/>
-                  </div>
-                  <div class='col-md-1 select text-center'>
-                  <h5 class= 'form-title'>DR grades</h5>
-                    <div class='form-group' >
-                  
-                      <input class='form-check-input grade' type='radio' required='required' name='grade' id='grade1' value='S0' style='position: inherit;'/>
-                      <label class='form-check-label' for='grade1'>S0</label>
-                    </div>
-                    
-                    <fieldset id='group1'>
-                    <div class='form-group'>
-                      <input class='form-check-input grade' type='radio'style='position: inherit;'name='grade' id='grade2' value='S1' />
-                      <label class='form-check-label' for='grade2'>S1</label>
-                    </div>
-                    <div class='form-group'>
-                      <input class='form-check-input grade' type='radio' style='position: inherit;'name='grade' id='grade3' value='S2' />
-                      <label class='form-check-label' for='grade3'>S2</label>
-                    </div>
-                    <div class='form-group'>
-                      <input class='form-check-input grade' type='radio' style='position: inherit;' name='grade' id='grade4' value='S3' />
-                      <label class='form-check-label' for='grade4'>S3</label>
-                    </div>
-                    <div class='form-group'>
-                      <input class='form-check-input grade' type='radio' style='position: inherit;' name='grade' id='grade5' value='S4' />
-                      <label class='form-check-label' for='grade5'>S4</label>
-                    </div> 
-                    </fieldset>
-                    <h5 class= 'form-title'>Maculopathy grades</h5>
-                     
-                    <fieldset id='group2'>
-                    <div class='form-check form-check-inline'>
-                      <input class='form-check-input grade' type='radio' style='position:  inherit;' required='required'name='mgrade' id='M0' value='M0' />
-                      <label class='form-check-label'  for='grade5'>M0</label>
-                    </div> 
-                    <div class='form-check form-check-inline'>
-                      <input class='form-check-input grade' type='radio' style='position: inherit;' name='mgrade' id='M1' value='M1' />
-                      <label class='form-check-label' for='grade5'>M1</label>
-                    </div> 
-                    </fieldset>
-                    
-                    <div id='gradeError' class='form-text invalid-feedback error'>cxvxvcasd
-                    </div>
-                    <button id='submit' type='submit' name='submit' required='required' class='btn btn-primary'>Next Image</button>
-                    <h5>Others</h5>
-                    <div class='section-ungrade section-flavors'>
-                    <input id='r11' name='others' type='radio' value='radio_btn' onclick='clickHandler(this);' class='flavors-radio'> 
-               <label for='r11'><span>  </span>Ungradable</label>
-                    <input id='r12' name='others' type='radio' value='radio_btn' onclick='clickHandler(this);'class='flavors-radio'>
-               <label for='r12'><span></span>Other Disease</label>
-               <button id='btnRate' type='submit' name='submit_1' required='required' class='btn btn-primary'>Next Image</button>
-               <script>
-              let btn = document.getElementById('btnRate');
-             
-      
-              btn.addEventListener('click', () => {
-                  let others = document.getElementsByName('others');
-                  others.forEach((others) => {
-                      if (others.checked) {
-                        $('#grade1').removeAttr('required');
-                        $('#M0').removeAttr('required');
-                      }
-                  });
-      
-              });
-          </script>
-                </div>";
-                 }
-              
-                  
-      
-                  }else{ 
-                    
-                    $type = $_REQUEST['device_type'];
-                    $_SESSION["device_type"] = $type;
-                    //echo $type;
-                    $mysqli = new mysqli('localhost', 'root', '', 'signIn');  
-                    $image_type_odd = $fetch['device_type'];
-                  
-                    
-                    $sql = "SELECT * FROM `uploads` WHERE device_type= $type AND `image_id`= $final_latest +2 limit 1 ";     
-                    $mq = mysqli_query($conn,$sql);
-                    $row = mysqli_fetch_array($mq);
-                    
+                      <div class='section-ungrade section-flavors'>
+                      <input id='r11' name='others' type='radio' value='U1' onclick='clickHandler(this);' class='flavors-radio'> 
+                 <label for='r11'><span>  </span>Ungradable</label>
+                      <input id='r12' name='others' type='radio' value='D1' onclick='clickHandler(this);'class='flavors-radio'>
+                 <label for='r12'><span></span>Other Disease</label>
+                      <button id='submit' type='submit' name='submit'  required='required' class='btn btn-primary'>Next Image</button>
+                      <script>
+                let btn = document.getElementById('submit');
+               
         
-                    $image_name_current_1st=$row['image_name'];
-                    $image_id_current_1st=$row['image_id'];
-                    echo "
-              
-                    <div class='col-md-5 image text-center'>
+                btn.addEventListener('click', () => {
+                    let others = document.getElementsByName('others');
+                    others.forEach((others) => {
+                        if (others.checked) {
+                          $('#grade1').removeAttr('required');
+                          $('#M0').removeAttr('required');
+                          header('Location:admin/index.html');
+                        }
+                    });
+        
+                });
+            </script>
+                </div>";
+          }
+        } else {
+          $counter = 1;
+          $grader_login_id = $_SESSION['u_id'];
+
+          $loginsql = "SELECT graded_img FROM grading WHERE EXISTS (SELECT grader_id FROM grading WHERE grader_id = $grader_login_id) limit 1 ";
+          $login_check = mysqli_query($conn, $loginsql);
+
+          if (mysqli_num_rows($login_check) > 0) {
+
+            // echo 'user exist';
+            $latest_img = "SELECT * FROM grading WHERE grader_id= $grader_login_id ORDER BY graded_img DESC limit 1";
+            $latest = mysqli_query($conn, $latest_img);
+            $fetch = mysqli_fetch_array($latest);
+            $final_latest = $fetch['original_image_id'];
+
+
+            if (($final_latest % 2) == 0) {
+               $sql = "SELECT * FROM uploads  WHERE image_id%2 =0 AND device_type ='F'" . "ORDER BY image_id DESC limit 1";
+                $mq277 = mysqli_query($conn, $sql);
+                $rowmq123= mysqli_fetch_array($mq277);
+                $last_even = $rowmq123['image_id'];
+                $sqlodd = "SELECT * FROM uploads  WHERE image_id%2 =1 AND device_type ='F'" . "ORDER BY image_id ASC limit 1";
+                $mq277odd = mysqli_query($conn, $sqlodd);
+                $rowmq123odd= mysqli_fetch_array($mq277odd);
+                $first_odd = $rowmq123odd['image_id'];
+                if($final_latest==$last_even){
+                  echo 'odd images';
+                echo 'fisrt odd image in db'.$first_odd;
+              $sql56 = "SELECT * FROM `uploads` WHERE device_type='F' AND  (`image_id`%2) =1 AND image_id=$first_odd limit 1";
+            
+            $mq56 = mysqli_query($conn, $sql56);
+            $row56 = mysqli_fetch_array($mq56);
+            
+            $image_name_current = $row56['image_name'];
+            $image_id_current = $row56['image_id'];
+            // echo 'starting oddy di';
+            // echo $prev_id;
+            // echo $first_image;
+
+            // $insert_grade_odd = "INSERT INTO grading (`grader_id`, `image_name`, `mo`, `dr`,`device_type`,`original_image_id`) VALUES (
+            //   '$grader_userid','$image_name_current','$MO_grade','$DR_grade','$type','$image_id_current');";
+            //     $res=mysqli_query($conn,$insert_grade_odd);
+
+            if (!isset($row56['image_name'])) {
+              echo "<script>
+            alert('complete');
+            window.location.href = 'thanks-3.html';
+            </script>";
+            }
+
+            echo "
                   
-                      <img src='{$row['img_dir']}' ;class='card-img-top' alt='...' />
+                         <div class='col-md-5 image text-center'>
+                  
+                      <img src='{$row56['img_dir']}' ;class='card-img-top' alt='...' />
                       <div class='col-12'>
-                        <span class='filename'>{$row['image_id']}</span>
+                        <span class='filename'>{$row56['image_id']}</span>
                       </div>
-                      <input type='hidden' name='image_previous' value='{$row['image_id']}'/>
-                      <input type='hidden' name='image_first' value='{$row['image_id']}'/>
-                      <input type='hidden' name='counter' value='{$counter}'/>
-                      <input type='hidden' name='image_name' value='{$row['image_name']}'/>
-                    </div>
-                    <div class='col-md-1 select text-center'>
-                    <h5 class= 'form-title'>DR grades</h5>
+                      <input type='hidden' name='image_previous' value='{$row56['image_id']}'/>
+                      <input type='hidden' name='image_first_odd' value='{$row56['image_id']}'/>
+                      <input type='hidden' name='image_first' value='{$row56['image_id']}'/>
+                      <input type='hidden' name='image_name' value='{$row56['image_name']}'/>
+                      <input type='hidden' name='counter' value=' '/>
+                        </div>
+                        <div class='col-md-1 select text-center'>
+                        <h5 class= 'form-title'>DR grades</h5>
                       <div class='form-group' >
                     
-                        <input class='form-check-input grade' type='radio' required='required' name='grade' id='grade1' value='S0' style='position: inherit;'/>
+                        <input class='form-check-input grade' type='radio'  name='grade' id='grade1' required='required'  value='S0' style='position: inherit;'/>
                         <label class='form-check-label' for='grade1'>S0</label>
                       </div>
                       
@@ -594,35 +446,42 @@
                         <label class='form-check-label' for='grade4'>S3</label>
                       </div>
                       <div class='form-group'>
-                        <input class='form-check-input grade' type='radio' style='position: inherit;' name='grade' id='grade5' value='S4' />
+                        <input class='form-check-input grade' type='radio' style='position: inherit;' name='grade'  id='grade5' value='S4' />
                         <label class='form-check-label' for='grade5'>S4</label>
-                      </div> 
+                      </div>
+                      <div class='form-group'>
+                        <input class='form-check-input grade' type='hidden' style='position: inherit;' name='grade'  id='grade5' value='null' />
+                        
+                      </div>  
                       </fieldset>
+        
                       <h5 class= 'form-title'>Maculopathy grades</h5>
-                       
+                      
                       <fieldset id='group2'>
                       <div class='form-check form-check-inline'>
-                        <input class='form-check-input grade' type='radio' style='position:  inherit;'required='required' name='mgrade' id='M0' value='M0' />
+                        <input class='form-check-input grade' type='radio' style='position: inherit;' name='mgrade' required='required'  id='M0' value='M0' />
                         <label class='form-check-label'  for='grade5'>M0</label>
                       </div> 
                       <div class='form-check form-check-inline'>
                         <input class='form-check-input grade' type='radio' style='position: inherit;' name='mgrade' id='M1' value='M1' />
                         <label class='form-check-label' for='grade5'>M1</label>
+                        <div class='form-group'>
+                        <input class='form-check-input grade' type='hidden' style='position: inherit;' name='mgrade'  id='grade5' value='null' />
+                        
+                      </div> 
                       </div> 
                       </fieldset>
-                      
                       <div id='gradeError' class='form-text invalid-feedback error'>cxvxvcasd
                       </div>
-                      <button id='submit' type='submit' name='submit' required='required' class='btn btn-primary'>Next Image</button>
                       <h5>Others</h5>
                       <div class='section-ungrade section-flavors'>
-                      <input id='r11' name='others' type='radio' value='radio_btn' onclick='clickHandler(this);' class='flavors-radio'> 
+                      <input id='r11' name='others' type='radio' value='U1' onclick='clickHandler(this);' class='flavors-radio'> 
                  <label for='r11'><span>  </span>Ungradable</label>
-                      <input id='r12' name='others' type='radio' value='radio_btn' onclick='clickHandler(this);'class='flavors-radio'>
+                      <input id='r12' name='others' type='radio' value='D1' onclick='clickHandler(this);'class='flavors-radio'>
                  <label for='r12'><span></span>Other Disease</label>
-                 <button id='btnRate' type='submit' name='submit_1' required='required' class='btn btn-primary'>Next Image</button>
-                 <script>
-                let btn = document.getElementById('btnRate');
+                      <button id='submit' type='submit' name='submit'  required='required' class='btn btn-primary'>Next Image</button>
+                      <script>
+                let btn = document.getElementById('submit');
                
         
                 btn.addEventListener('click', () => {
@@ -631,38 +490,238 @@
                         if (others.checked) {
                           $('#grade1').removeAttr('required');
                           $('#M0').removeAttr('required');
+                          header('Location:admin/index.html');
                         }
                     });
         
                 });
             </script>
-                  </div>";
+                     
+                 
+                      </div>";
+          } else{
+                
 
-                  }
-
-                }
-
+              $type = $_REQUEST['device_type'];
+              $_SESSION["device_type"] = $type;
+              //echo $type;
+              // $mysqli = new mysqli('localhost', 'root', '', 'signIn');  
+              $image_type = $fetch['device_type'];
+              // / if ($image_type == 'F') {
+                $final_latesti = $final_latest + 2;
+                echo 'final latesti'.$final_latesti;
+                $sql27 = "SELECT * FROM uploads WHERE device_type= '$type' AND image_id= $final_latesti limit 1 ";
+                $mq27 = mysqli_query($conn, $sql27);
+                $row = mysqli_fetch_array($mq27);
+                echo $row['image_name'];
+                
                
-             
+                $image_name_current_1st = $row['image_name'];
+                $image_id_current_1st = $row['image_id'];
+                echo $image_id_current_1st;
+                echo "
+            
+                  <div class='col-md-5 image text-center'>
+                
+                    <img src='{$row['img_dir']}' ;class='card-img-top' alt='...' />
+                    <div class='col-12'>
+                      <span class='filename'>{$row['image_id']}</span>
+                    </div>
+                    <input type='hidden' name='image_previous' value='{$row['image_id']}'/>
+                    <input type='hidden' name='image_first' value='{$row['image_id']}'/>
+                    <input type='hidden' name='counter' value='{$counter}'/>
+                    <input type='hidden' name='image_name' value='{$row['image_name']}'/>
+                  </div>
+                  <div class='col-md-1 select text-center'>
+                  <h5 class= 'form-title'>DR grades</h5>
+                    <div class='form-group' >
+                  
+                      <input class='form-check-input grade' type='radio' required='required' name='grade' id='grade1' value='S0' style='position: inherit;'/>
+                      <label class='form-check-label' for='grade1'>S0</label>
+                    </div>
+                    
+                    <fieldset id='group1'>
+                    <div class='form-group'>
+                      <input class='form-check-input grade' type='radio'style='position: inherit;'name='grade' id='grade2' value='S1' />
+                      <label class='form-check-label' for='grade2'>S1</label>
+                    </div>
+                    <div class='form-group'>
+                      <input class='form-check-input grade' type='radio' style='position: inherit;'name='grade' id='grade3' value='S2' />
+                      <label class='form-check-label' for='grade3'>S2</label>
+                    </div>
+                    <div class='form-group'>
+                      <input class='form-check-input grade' type='radio' style='position: inherit;' name='grade' id='grade4' value='S3' />
+                      <label class='form-check-label' for='grade4'>S3</label>
+                    </div>
+                    <div class='form-group'>
+                      <input class='form-check-input grade' type='radio' style='position: inherit;' name='grade' id='grade5' value='S4' />
+                      <label class='form-check-label' for='grade5'>S4</label>
+                    </div> 
+                    <div class='form-group'>
+                        <input class='form-check-input grade' type='hidden' style='position: inherit;' name='grade'  id='grade5' value='null' />
+                        
+                      </div> 
+                    </fieldset>
+                    <h5 class= 'form-title'>Maculopathy grades</h5>
+                     
+                    <fieldset id='group2'>
+                    <div class='form-check form-check-inline'>
+                      <input class='form-check-input grade' type='radio' style='position:  inherit;' required='required'name='mgrade' id='M0' value='M0' />
+                      <label class='form-check-label'  for='grade5'>M0</label>
+                    </div> 
+                    <div class='form-check form-check-inline'>
+                      <input class='form-check-input grade' type='radio' style='position: inherit;' name='mgrade' id='M1' value='M1' />
+                      <label class='form-check-label' for='grade5'>M1</label>
+                    </div> 
+                    <div class='form-group'>
+                        <input class='form-check-input grade' type='hidden' style='position: inherit;' name='mgrade'  id='grade5' value='null' />
+                        
+                      </div> 
+                    </fieldset>
+                    
+                    <div id='gradeError' class='form-text invalid-feedback error'>cxvxvcasd
+                    </div>
+                    <h5>Others</h5>
+                      <div class='section-ungrade section-flavors'>
+                      <input id='r11' name='others' type='radio' value='U1' onclick='clickHandler(this);' class='flavors-radio'> 
+                 <label for='r11'><span>  </span>Ungradable</label>
+                      <input id='r12' name='others' type='radio' value='D1' onclick='clickHandler(this);'class='flavors-radio'>
+                 <label for='r12'><span></span>Other Disease</label>
+                      <button id='submit' type='submit' name='submit'  required='required' class='btn btn-primary'>Next Image</button>
+                      <script>
+                let btn = document.getElementById('submit');
+               
+        
+                btn.addEventListener('click', () => {
+                    let others = document.getElementsByName('others');
+                    others.forEach((others) => {
+                        if (others.checked) {
+                          $('#grade1').removeAttr('required');
+                          $('#M0').removeAttr('required');
+                          header('Location:admin/index.html');
+                        }
+                    });
+        
+                });
+            </script>
+                </div>";
+              } 
+            }else {
+                $final_latesti = $final_latest + 2;
+                $sql27 = "SELECT * FROM uploads WHERE device_type= '$type' AND image_id= $final_latesti limit 1 ";
+                $mq27 = mysqli_query($conn, $sql27);
+                $row = mysqli_fetch_array($mq27);
 
-                else {
-                  //echo '1st login';
-                  $counter =1;
-           
+
+                $image_name_current_1st = $row['image_name'];
+                $image_id_current_1st = $row['image_id'];
+                echo "
+            
+                  <div class='col-md-5 image text-center'>
+                
+                    <img src='{$row['img_dir']}' ;class='card-img-top' alt='...' />
+                    <div class='col-12'>
+                      <span class='filename'>{$row['image_id']}</span>
+                    </div>
+                    <input type='hidden' name='image_previous' value='{$row['image_id']}'/>
+                    <input type='hidden' name='image_first' value='{$row['image_id']}'/>
+                    <input type='hidden' name='counter' value='{$counter}'/>
+                    <input type='hidden' name='image_name' value='{$row['image_name']}'/>
+                  </div>
+                  <div class='col-md-1 select text-center'>
+                  <h5 class= 'form-title'>DR grades</h5>
+                    <div class='form-group' >
+                  
+                      <input class='form-check-input grade' type='radio' required='required' name='grade' id='grade1' value='S0' style='position: inherit;'/>
+                      <label class='form-check-label' for='grade1'>S0</label>
+                    </div>
+                    
+                    <fieldset id='group1'>
+                    <div class='form-group'>
+                      <input class='form-check-input grade' type='radio'style='position: inherit;'name='grade' id='grade2' value='S1' />
+                      <label class='form-check-label' for='grade2'>S1</label>
+                    </div>
+                    <div class='form-group'>
+                      <input class='form-check-input grade' type='radio' style='position: inherit;'name='grade' id='grade3' value='S2' />
+                      <label class='form-check-label' for='grade3'>S2</label>
+                    </div>
+                    <div class='form-group'>
+                      <input class='form-check-input grade' type='radio' style='position: inherit;' name='grade' id='grade4' value='S3' />
+                      <label class='form-check-label' for='grade4'>S3</label>
+                    </div>
+                    <div class='form-group'>
+                      <input class='form-check-input grade' type='radio' style='position: inherit;' name='grade' id='grade5' value='S4' />
+                      <label class='form-check-label' for='grade5'>S4</label>
+                    </div> 
+                    <div class='form-group'>
+                        <input class='form-check-input grade' type='hidden' style='position: inherit;' name='grade'  id='grade5' value='null' />
+                        
+                      </div> 
+                    </fieldset>
+                    <h5 class= 'form-title'>Maculopathy grades</h5>
+                     
+                    <fieldset id='group2'>
+                    <div class='form-check form-check-inline'>
+                      <input class='form-check-input grade' type='radio' style='position:  inherit;' required='required'name='mgrade' id='M0' value='M0' />
+                      <label class='form-check-label'  for='grade5'>M0</label>
+                    </div> 
+                    <div class='form-check form-check-inline'>
+                      <input class='form-check-input grade' type='radio' style='position: inherit;' name='mgrade' id='M1' value='M1' />
+                      <label class='form-check-label' for='grade5'>M1</label>
+                    </div> 
+                    <div class='form-group'>
+                        <input class='form-check-input grade' type='hidden' style='position: inherit;' name='mgrade'  id='grade5' value='null' />
+                        
+                      </div> 
+                    </fieldset>
+                    
+                    <div id='gradeError' class='form-text invalid-feedback error'>cxvxvcasd
+                    </div>
+                    <button id='submit' type='submit' name='submit' required='required' class='btn btn-primary'>Next Image</button>
+                    <h5>Others</h5>
+                    <div class='section-ungrade section-flavors'>
+                    <input id='r11' name='others' type='radio' value='U1' onclick='clickHandler(this);' class='flavors-radio'> 
+               <label for='r11'><span>  </span>Ungradable</label>
+                    <input id='r12' name='others' type='radio' value='D1' onclick='clickHandler(this);'class='flavors-radio'>
+               <label for='r12'><span></span>Other Disease</label>
+               <button id='btnRate' type='submit' name='submit' required='required' class='btn btn-primary'>Next Image</button>
+               <script>
+              let btn = document.getElementById('submit');
+             
+      
+              btn.addEventListener('click', () => {
+                  let others = document.getElementsByName('others');
+                  others.forEach((others) => {
+                      if (others.checked) {
+                        $('#grade1').removeAttr('required');
+                        $('#M0').removeAttr('required');
+                      }
+                  });
+      
+              });
+          </script>
+                </div>";
+              }
+            }
+             
+        else {
+            //echo '1st login';
+            $counter = 1;
+
             $type = $_REQUEST['device_type'];
             $_SESSION["device_type"] = $type;
             //echo $type;
-            $mysqli = new mysqli('localhost', 'root', '', 'signIn');  
-            
-            $sql = "SELECT * FROM `uploads` WHERE device_type='$type'AND(`image_id`%2) =0 limit 1";     
-            $mq = mysqli_query($conn,$sql);
-            $row = mysqli_fetch_array($mq);
-            
+            $mysqli = new mysqli('localhost', 'root', '', 'signIn');
 
-            $image_name_current_1st=$row['image_name'];
-            $image_id_current_1st=$row['image_id'];
-            
-         //  echo $_SESSION['device_type'];
+            $sql = "SELECT * FROM `uploads` WHERE device_type='$type'AND(`image_id`%2) =0 limit 1";
+            $mq = mysqli_query($conn, $sql);
+            $row = mysqli_fetch_array($mq);
+
+
+            $image_name_current_1st = $row['image_name'];
+            $image_id_current_1st = $row['image_id'];
+
+            //  echo $_SESSION['device_type'];
 
             echo "
             
@@ -702,6 +761,10 @@
                 <input class='form-check-input grade' type='radio' style='position: inherit;' name='grade' id='grade5' value='S4' />
                 <label class='form-check-label' for='grade5'>S4</label>
               </div> 
+              <div class='form-group'>
+                        <input class='form-check-input grade' type='hidden' style='position: inherit;' name='grade'  id='grade5' value='null' />
+                        
+                      </div> 
               </fieldset>
               <h5 class= 'form-title'>Maculopathy grades</h5>
                
@@ -714,6 +777,10 @@
                 <input class='form-check-input grade' type='radio' style='position: inherit;' name='mgrade' id='M1' value='M1' />
                 <label class='form-check-label' for='grade5'>M1</label>
               </div> 
+              <div class='form-group'>
+                        <input class='form-check-input grade' type='hidden' style='position: inherit;' name='mgrade'  id='grade5' value='null' />
+                        
+                      </div> 
               </fieldset>
               
               <div id='gradeError' class='form-text invalid-feedback error'>cxvxvcasd
@@ -722,13 +789,13 @@
               <div class='form-title'>
               <h5>Others</h5>
               <div class='section-ungrade section-flavors'>
-              <input id='r11' name='others' type='radio' value='radio_btn' onclick='clickHandler(this);' class='flavors-radio'> 
+              <input id='r11' name='others' type='radio' value='U1' onclick='clickHandler(this);' class='flavors-radio'> 
          <label for='r11'><span>  </span>Ungradable</label>
-              <input id='r12' name='others' type='radio' value='radio_btn' onclick='clickHandler(this);'class='flavors-radio'>
+              <input id='r12' name='others' type='radio' value='D1' onclick='clickHandler(this);'class='flavors-radio'>
          <label for='r12'><span></span>Other Disease</label>
-         <button id='btnRate' type='submit' name='submit_1' required='required' class='btn btn-primary'>Next Image</button>
+         <button id='btnRate' type='submit' name='submit' required='required' class='btn btn-primary'>Next Image</button>
          <script>
-        let btn = document.getElementById('btnRate');
+        let btn = document.getElementById('submit');
        
 
         btn.addEventListener('click', () => {
@@ -748,23 +815,19 @@
          
           </div>
          ";
-
-       
-         
           }
-
         }
-                //  session_start();
-           // echo $_SESSION["email"];
-           // echo $_SESSION["u_id"];
-            
-            ?>
-          </form>  
-    
+        //  session_start();
+        // echo $_SESSION["email"];
+        // echo $_SESSION["u_id"];
+
+        ?>
+        </form>
+
       </div>
     </div>
     <div class="col-2">
-      
+
     </div>
   </section>
   <!-- ***** Tech Dashboard Area End ***** -->

@@ -1,12 +1,13 @@
 <?php
 
-require 'con.php';
+require 'connection.php';
 
 session_start();
 
 
 $email = $_REQUEST['email'];
 $pass = $_REQUEST['pass'];
+
 $_SESSION["email"] = $email;
 $_SESSION["password"] = $pass;
 $usr_id = "select u_id, email from signIn where email like '$email' and password like '$pass';";
@@ -27,7 +28,7 @@ if($email==($row['email'])){
         if($row['signIn_check']=='1'){
             // role COndition
             if($row['role']=="admin"){
-                header('Location:admin/index.html');
+                header('Location:admin/index.php');
             }
             if($row['role']=="grader"){
                 header('Location:grader.php');
